@@ -1,0 +1,21 @@
+When I use page.select function, it got an error:
+TypeError: Cannot read property 'indexOf' of undefined
+
+My code is:
+await page.select('#providerSelector', '101');
+
+Then I use another way:
+let selectElem = await page.waitForSelector("#providerSelector");
+let optionElem = await page.waitForSelector("#providerSelector > option:nth-child(3)");
+await page.evaluate((optionElem, selectElem) => {
+optionElem.selected = true;
+const event = new Event('change', {bubbles: true});
+event.simulated=true;
+selectElem.dispatchEvent(event);
+}, optionElem, selectElem);
+
+But still got the same error.
+Is it a bug of Puppeteer?
+Note: My Chromium Version 69.0.3452.0 (Developer Build) (64-bit)
+
+If it's a puppeteer bug? How can I upgrade my puppeteer version?
